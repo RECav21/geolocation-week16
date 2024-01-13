@@ -6,14 +6,22 @@ pipeline {
     stages{
         stage('sonarqube scan'){
             steps{
-                sh 'mvn smvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=RECav21_geolocation-week16'
+                withSonarQubeEnv('sonarQube') {
+                    sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=RECav21_geolocation-week16'
             }
         }
+    }
         stage('maven commands'){
             steps{
                 sh 'mvn clean compile install package'
             }
         }
-        
+        stage('Upload artifact') {
+            steps {
+                script {
+                    sh 'curl -uadmin:AP5mZ1TGxbfJg5s8o7m1rRSRP4i -T target/bio*.jar "http://ec2-3-86-203-170.compute-1.amazonaws.com:8081/artifactory/geoapp/"'
+                }
+            }
+        }
     }
 }
