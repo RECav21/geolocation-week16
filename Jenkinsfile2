@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+    tools{
+        maven 'M2_HOME'
+    }
+    stages{
+        stage('sonarqube scan'){
+            steps{
+                sh 'mvn smvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=RECav21_geolocation-week16'
+            }
+        }
+        stage('maven commands'){
+            steps{
+                sh 'mvn clean compile install package'
+            }
+        }
+        
+    }
+}
