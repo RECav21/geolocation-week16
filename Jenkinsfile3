@@ -1,19 +1,28 @@
 pipeline {
     agent any
-    stages{
-        stage('check current directory'){
-            docker {image 'node:20.10.0-alpine3.19'}
-            steps{
-                sh 'pwd'
-                sh 'id'
-                //sh "mkdir \$(date '+%Y%m%d_%H%M%S')"
-                sh 'npm --version'
+    
+    stages {
+        stage('check current directory') {
+            agent {
+                docker { image 'node:20.10.0-alpine3.19' }
+            }
+            steps {
+                script {
+                    sh 'pwd'
+                    sh 'id'
+                    sh "mkdir \$(date '+%Y%m%d_%H%M%S')"
+                }
             }
         }
-        stage('python script'){
-            agent {docker { image 'python:3.10-slim'}}
+        
+        stage('python script') {
+            agent {
+                docker { image 'python:3.10-slim' }
+            }
             steps {
-                sh 'python3 --version'
+                script {
+                    sh 'python3 --version'
+                }
             }
         }
     }
