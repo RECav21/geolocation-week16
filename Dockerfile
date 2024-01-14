@@ -1,4 +1,4 @@
-FROM openjdk:8
-ADD target/spring-boot-maven-plugin.jar spring-boot-maven-plugin.jar
-EXPOSE 8081
-ENTRYPORT ["-java","-jar","spring-boot-maven-plugin.jar"]
+FROM openjdk:11
+ADD target/bioMedical*.jar app.jar
+EXPOSE 8081 8000 8082
+ENTRYPORT ["-java","-jar","app.jar"]
